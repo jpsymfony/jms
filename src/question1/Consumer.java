@@ -4,6 +4,9 @@ import javax.naming.*;
 import javax.jms.*;
 import java.util.Hashtable;
 
+/**
+ * The type Consumer.
+ */
 public class Consumer
 {
     private Context contexte;
@@ -17,6 +20,8 @@ public class Consumer
      *
      * @param requestChannel le nom de la file pour l'envoi
      * @param replyChannel   le nom de la file pour la reception
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
      */
     public Consumer(String requestChannel, String replyChannel) throws NamingException, JMSException
     {
@@ -50,6 +55,12 @@ public class Consumer
         connexion.start();
     }
 
+    /**
+     * Send.
+     *
+     * @param s the s
+     * @throws JMSException the jms exception
+     */
     public void send(String s) throws JMSException
     {
         ObjectMessage message = session.createObjectMessage();
@@ -57,6 +68,12 @@ public class Consumer
         sender.send(message);
     }
 
+    /**
+     * Receive message q 1.
+     *
+     * @return the message q 1
+     * @throws JMSException the jms exception
+     */
     public MessageQ1 receive() throws JMSException
     {
         MessageQ1 recu = null;
@@ -70,6 +87,12 @@ public class Consumer
         return recu;
     }
 
+    /**
+     * Close.
+     *
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
+     */
     public void close() throws NamingException, JMSException
     {
         // fermeture du contexte et de la connexion
@@ -77,6 +100,12 @@ public class Consumer
         connexion.close();
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
         Consumer consumer = null;

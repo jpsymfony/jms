@@ -1,7 +1,16 @@
 package question2;
 
+/**
+ * The type Un scenario.
+ */
 public class UnScenario
 {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
         Souscription s1 = null, s2 = null, s3 = null;

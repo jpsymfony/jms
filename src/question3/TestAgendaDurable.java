@@ -8,10 +8,16 @@ import java.util.Hashtable;
 import java.util.concurrent.*;
 import java.util.Date;
 
+/**
+ * The type Test agenda durable.
+ */
 public class TestAgendaDurable extends junit.framework.TestCase
 {
     private SynchronousQueue<RendezVous> queue1, queue2, queue3;
 
+    /**
+     * Test souscripteur durable.
+     */
     public void test_souscripteur_durable()
     {
         Souscription s1 = null, s2 = null, s3 = null;
@@ -23,7 +29,7 @@ public class TestAgendaDurable extends junit.framework.TestCase
             priseDeRDV.publier(r1);
             System.out.println("envoi !!!" + r1);
 
-            s1 = new SouscriptionDurable("agenda_tests2", "durable3")
+            s1 = new SouscriptionDurable("agenda_tests", "durable3")
             {
                 public void onMessage(Message message)
                 {

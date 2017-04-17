@@ -1,8 +1,17 @@
 package question1;
 
+/**
+ * The type Un autre scenario.
+ */
 public class UnAutreScenario
 {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
 

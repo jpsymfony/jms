@@ -4,14 +4,24 @@ import javax.naming.*;
 import javax.jms.*;
 import java.util.Hashtable;
 
+/**
+ * The type Prise de rdv.
+ */
 public class PriseDeRDV
 {
-    private Context context = null;
-    private TopicConnection topicConnection = null;
-    private TopicSession topicSession = null;
-    private TopicPublisher topicPublisher = null;
+    private Context contexte = null;
+    private TopicConnection connexion = null;
+    private TopicSession session = null;
+    private TopicPublisher sender = null;
     private Topic topic = null;
 
+    /**
+     * Instantiates a new Prise de rdv.
+     *
+     * @param topicName the topic name
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
+     */
     public PriseDeRDV(String topicName) throws NamingException, JMSException
     {
         Hashtable<String, String> properties = new Hashtable<String, String>();
@@ -19,51 +29,45 @@ public class PriseDeRDV
         properties.put(Context.PROVIDER_URL, "tcp://localhost:3035/");
 
         System.out.println("Getting Initial Context:");
-        context = new InitialContext(properties);
-        System.out.println("Got Initial Context:" + context);
+        contexte = new InitialContext(properties);
+        System.out.println("Got Initial Context:" + contexte);
 
         // Get the connection factory
         System.out.println("Getting Topic Factory:");
-        TopicConnectionFactory topicFactory = (TopicConnectionFactory) context.lookup("JmsTopicConnectionFactory");
+        TopicConnectionFactory topicFactory = (TopicConnectionFactory) contexte.lookup("JmsTopicConnectionFactory");
         System.out.println("Got Topic Factory:" + topicFactory);
 
         // Create the connection
-        topicConnection = topicFactory.createTopicConnection();
+        connexion = topicFactory.createTopicConnection();
 
         // Create the session
-        topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        session = connexion.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // Look up the destination
-        topic = (Topic) context.lookup(topicName);
+        topic = (Topic) contexte.lookup(topicName);
 
         // Create a publisher
-        topicPublisher = topicSession.createPublisher(topic);
-        topicConnection.start();
+        sender = session.createPublisher(topic);
+        connexion.start();
     }
 
+    /**
+     * Publier.
+     *
+     * @param rdv the rdv
+     * @throws JMSException the jms exception
+     */
     public void publier(RendezVous rdv) throws JMSException
     {
         try {
-            System.out.println("Will publish " + rdv + " Message to Device topic");
-
-            // Look up the destination
-            // a completer
-            topic = (Topic) context.lookup("agenda");
-            System.out.println("Found the agenda Topic");
-
-            // Create a publisher
-            // a completer
-            topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-            topicPublisher = topicSession.createPublisher(topic);
-
             // Create a message
             // a completer
-            ObjectMessage message = topicSession.createObjectMessage();
+            ObjectMessage message = session.createObjectMessage();
             message.setObject(rdv);
 
             // Publish the message
             // a completer
-            topicPublisher.publish(message);
+            sender.publish(message);
             //System.out.println("Published " + rdv + " to agenda Topic");
         } catch (Exception ex) {
             System.err.println("Could not handle message: " + ex);
@@ -71,12 +75,24 @@ public class PriseDeRDV
         }
     }
 
+    /**
+     * Close.
+     *
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
+     */
     public void close() throws NamingException, JMSException
     {
-        context.close();
-        topicConnection.close();
+        contexte.close();
+        connexion.close();
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
 

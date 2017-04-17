@@ -5,6 +5,9 @@ import javax.jms.*;
 import java.util.Hashtable;
 import java.util.Date;
 
+/**
+ * The type Provider.
+ */
 public class Provider implements MessageListener
 {
     private Context contexte;
@@ -18,6 +21,8 @@ public class Provider implements MessageListener
      *
      * @param requestChannel le nom de la file pour l'envoi
      * @param replyChannel   le nom de la file pour la reception
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
      */
     public Provider(String requestChannel, String replyChannel) throws NamingException, JMSException
     {
@@ -77,6 +82,12 @@ public class Provider implements MessageListener
         }
     }
 
+    /**
+     * Close.
+     *
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
+     */
     public void close() throws NamingException, JMSException
     {
         // fermeture du contexte et de la connexion
@@ -84,6 +95,12 @@ public class Provider implements MessageListener
         connexion.close();
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
         Provider provider = null;

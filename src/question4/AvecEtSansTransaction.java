@@ -4,12 +4,18 @@ import javax.naming.*;
 import javax.jms.*;
 import java.util.Hashtable;
 
+/**
+ * The type Avec et sans transaction.
+ */
 public class AvecEtSansTransaction
 {
 
     /**
      * Envoi sans transaction sur 3 files,
      * la derniere file, n'existe pas, ce qui engendre une exception
+     *
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
      */
     public static void sansTransaction() throws NamingException, JMSException
     {
@@ -79,6 +85,9 @@ public class AvecEtSansTransaction
     /**
      * Envoi sans transaction sur 3 files,
      * la derniere file, n'existe pas, ce qui engendre une exception
+     *
+     * @throws NamingException the naming exception
+     * @throws JMSException    the jms exception
      */
     public static void avecTransaction() throws NamingException, JMSException
     {
@@ -147,6 +156,12 @@ public class AvecEtSansTransaction
     }
 
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
     {
         try {
